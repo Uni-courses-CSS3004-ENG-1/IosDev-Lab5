@@ -20,10 +20,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     });
   }
 
+  void addToCart() {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text('Added to cart')));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Product Preview')),
+      // Sticky bottom bar: stays in place while the page scrolls
+      bottomNavigationBar: buildBottomBar(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -137,6 +144,29 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         const SizedBox(height: 4),
         Text(product.description),
       ],
+    );
+  }
+
+  Widget buildBottomBar() {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          children: [
+            // Expanded makes the button take the full width
+            Expanded(
+              child: FilledButton.icon(
+                onPressed: addToCart,
+                icon: const Icon(Icons.shopping_cart),
+                label: const Text('Add to Cart'),
+                style: FilledButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
